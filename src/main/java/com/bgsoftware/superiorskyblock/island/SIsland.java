@@ -2761,27 +2761,23 @@ public class SIsland implements Island {
         return result.isEmpty() ? KeyMaps.createEmptyMap() : KeyMaps.unmodifiableKeyMap(result);
     }
 
+    /** BEGIN FORK
+     * Removed logic behind is chunk dirty because this method is useless for whole worlds */
     @Override
     public boolean isChunkDirty(World world, int chunkX, int chunkZ) {
-        Preconditions.checkNotNull(world, "world parameter cannot be null.");
-        Preconditions.checkArgument(isInside(world, chunkX, chunkZ), "Chunk must be within the island boundaries.");
-        return this.isChunkDirty(world.getName(), chunkX, chunkZ);
+        return false;
     }
 
     @Override
     public boolean isChunkDirty(String worldName, int chunkX, int chunkZ) {
-        Preconditions.checkNotNull(worldName, "worldName parameter cannot be null.");
-        return isChunkDirty(plugin.getGrid().getIslandsWorldInfo(this, worldName), chunkX, chunkZ);
+        return false;
     }
 
     @Override
     public boolean isChunkDirty(WorldInfo worldInfo, int chunkX, int chunkZ) {
-        Preconditions.checkArgument(worldInfo != null && isChunkInside(chunkX, chunkZ),
-                "Chunk must be within the island boundaries.");
-        try (ChunkPosition chunkPosition = ChunkPosition.of(worldInfo, chunkX, chunkZ)) {
-            return this.dirtyChunksContainer.isMarkedDirty(chunkPosition);
-        }
+        return false;
     }
+    /** END FORK */
 
     @Override
     public void markChunkDirty(World world, int chunkX, int chunkZ, boolean save) {
